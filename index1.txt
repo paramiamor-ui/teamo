@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>27 de Septiembre - Nuestro Inicio</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: 'Crimson Text', serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Estrellas brillantes */
+        .stars-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite ease-in-out;
+            opacity: 0.8;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        /* Contenedor Principal */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Teléfono animado */
+        .phone-wrapper {
+            perspective: 1000px;
+            margin-bottom: 30px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .phone-wrapper:hover {
+            transform: scale(1.05);
+        }
+
+        .phone {
+            width: 200px;
+            height: 350px;
+            background: linear-gradient(145deg, #2c3e50, #1a252f);
+            border-radius: 30px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(231, 76, 60, 0.3);
+            border: 4px solid #34495e;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .phone-screen {
+            width: 180px;
+            height: 320px;
+            background: linear-gradient(180deg, #74b9ff 0%, #0984e3 100%);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .notification {
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin: 10px;
+            max-width: 160px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            animation: pulse-message 2s infinite;
+            cursor: pointer;
+        }
+
+        @keyframes pulse-message {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .notification-text {
+            font-size: 12px;
+            color: #2d3436;
+            margin-bottom: 5px;
+        }
+
+        .notification-sender {
+            font-size: 10px;
+            color: #636e72;
+            font-weight: bold;
+        }
+
+        .click-hint {
+            position: absolute;
+            bottom: -50px;
+            width: 100%;
+            text-align: center;
+            color: #74b9ff;
+            font-size: 14px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Contenido de la Carta */
+        .letter {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 700px;
+            position: relative;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideIn 1s forwards;
+        }
+
+        @keyframes slideIn {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .letter.show {
+            display: block;
+        }
+
+        .letter-header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 20px;
+        }
+
+        .letter h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5em;
+            color: #c0392b;
+            margin-bottom: 10px;
+        }
+
+        .date-highlight {
+            font-size: 1.3em;
+            color: #e74c3c;
+            font-weight: bold;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .letter-content {
+            font-size: 1.15em;
+            line-height: 2;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        .letter-content p {
+            margin-bottom: 20px;
+            text-indent: 30px;
+        }
+
+        .highlight-text {
+            background: linear-gradient(120deg, #ffeaa7 0%, #ffeaa7 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 0.2em;
+            background-position: 0 88%;
+            padding: 0 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .highlight-text:hover {
+            background-size: 100% 100%;
+            border-radius: 3px;
+        }
+
+        /* Popup de mensaje */
+        .message-popup {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            width: 250px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            padding: 15px;
+            transition: transform 0.3s ease;
+            z-index: 10;
+            pointer-events: none;
+            border: 2px solid #e74c3c;
+        }
+
+        .message-popup.show {
+            transform: translateX(-50%) scale(1);
+        }
+
+        .message-bubble {
+            background: #dcf8c6;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .message-bubble.sent {
+            background: #e3f2fd;
+            margin-left: 20px;
+        }
+
+        /* Sección final */
+        .final-section {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #fff5f5, #ffe0e0);
+            border-radius: 15px;
+        }
+
+        .final-message {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2em;
+            color: #c0392b;
+            margin-bottom: 10px;
+        }
+
+        .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5em;
+            color: #e74c3c;
+            margin-top: 15px;
+        }
+
+        .heart-btn {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.2em;
+            cursor: pointer;
+            font-family: 'Crimson Text', serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.4);
+            margin-top: 20px;
+        }
+
+        .heart-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(231, 76, 60, 0.6);
+        }
+
+        /* Controles de Música */
+        .music-control {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .music-control:hover {
+            transform: scale(1.1);
+        }
+
+        .music-control.playing {
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Efecto de corazones */
+        .floating-heart {
+            position: fixed;
+            font-size: 24px;
+            pointer-events: none;
+            animation: float-up 4s ease-in forwards;
+            z-index: 9999;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(0) scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .phone {
+                width: 160px;
+                height: 280px;
+            }
+            .phone-screen {
+                width: 140px;
+                height: 260px;
+            }
+            .letter {
+                padding: 30px 20px;
+            }
+            .letter h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Estrellas de fondo -->
+    <div class="stars-container" id="starsContainer"></div>
+
+    <!-- Control de Música -->
+    <div class="music-control" id="musicBtn" title="Activar/Desactivar Música">
+        🎵
+    </div>
+
+    <!-- Elemento de Audio -->
+    <audio id="bgMusic" loop>
+        <source src="https://files.catbox.moe/pzahe8.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <div class="container">
+        <!-- Teléfono con notificación -->
+        <div class="phone-wrapper" id="phoneWrapper">
+            <div class="phone">
+                <div class="phone-screen">
+                    <div class="notification" id="notification">
+                        <div class="notification-text">"hola, ¿cómo estás?"</div>
+                        <div class="notification-sender">27 de septiembre</div>
+                    </div>
+                </div>
+            </div>
+            <div class="click-hint">Haz clic en el mensaje</div>
+        </div>
+
+        <!-- Contenido de la Carta -->
+        <div class="letter" id="letter">
+            <div class="letter-header">
+                <h1>El Día Que Todo Cambió</h1>
+                <div class="date-highlight">27 de Septiembre</div>
+            </div>
+
+            <div class="letter-content">
+                <p>
+                    Hola mi amor,
+                </p>
+
+                <p>
+                    Hay una fecha que para muchos puede ser un día cualquiera, pero para mí significa todo. Ese día fue <span class="highlight-text">el 27 de septiembre</span>.
+                </p>
+
+                <p>
+                    A lo mejor solo fue un mensaje, una simple frase que decir… <span class="highlight-text" id="messageHighlight">"hola, ¿cómo estás?"</span>… pero para mí fue mucho más que solo una frase. Fue el comienzo de lo que para mí ha sido el inicio de algo que nunca imaginé que llegaría a ser tan importante en mi vida. Ese día, sin saberlo por mí mismo, empezó una historia que ahora no cambiaría por nada del mundo.
+                </p>
+
+                <p>
+                    Me quedo pensando cómo estaba nervioso ese día, cómo no sabía qué iba a pasar ni si todo lo que estaba pasando solo sería una conversación. Pero míranos… todo lo que hemos construido desde ese día, todo lo que hemos sentido, todo lo que hemos vivido, incluso a la distancia.
+                </p>
+
+                <p>
+                    Y aun así, hemos hecho lo posible por vernos. Las veces que estuvimos juntos significa más de lo que puedo explicar con palabras. Cada momento contigo se ha quedado grabado en mí de una forma especial.
+                </p>
+
+                <p>
+                    Pero hay algo que nunca voy a olvidar: <span class="highlight-text">nuestro primer beso</span>.
+                </p>
+
+                <p>
+                    De verdad, fue lo más bonito que me ha pasado en toda mi vida. En ese momento todo se sintió perfecto, como si el tiempo se detuviera y solo existiéramos tú y yo. Fue uno de esos momentos que sabes que se quedan contigo para siempre.
+                </p>
+
+                <p>
+                    El 27 de septiembre no solo comenzamos a hablar, ese día comenzó algo dentro de mí. Empecé a conocerte, a quererte, y poco a poco, sin darme cuenta, a <span class="highlight-text">enamorarme de ti</span>.
+                </p>
+
+                <p>
+                    Y si pudiera regresar a ese momento, con la misma incertidumbre y los mismos nervios lo haría otra vez sin pensarlo, porque sé que al final siempre voy a llegar a ti.
+                </p>
+
+                <p>
+                    Gracias por haber contestado ese mensaje. Gracias por venir a mi vida. Gracias por cada momento, cada risa, cada recuerdo y por ese beso que nunca voy a olvidar.
+                </p>
+            </div>
+
+            <!-- Sección final -->
+            <div class="final-section">
+                <div class="final-message">Te amo muchísimo,</div>
+                <div class="signature">Tu bebé tiquito.</div>
+                <button class="heart-btn" onclick="createHeartExplosion()">❤️ Enviar amor infinito ❤️</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Crear estrellas
+        function createStars() {
+            const container = document.getElementById('starsContainer');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                container.appendChild(star);
+            }
+        }
+        createStars();
+
+        // Abrir carta al hacer clic en el teléfono
+        const phoneWrapper = document.getElementById('phoneWrapper');
+        const notification = document.getElementById('notification');
+        const letter = document.getElementById('letter');
+
+        notification.addEventListener('click', function() {
+            phoneWrapper.style.display = 'none';
+            letter.classList.add('show');
+            if (!isPlaying) {
+                toggleMusic();
+            }
+        });
+
+        // Popup del mensaje original
+        const messageHighlight = document.getElementById('messageHighlight');
+        const popup = document.createElement('div');
+        popup.className = 'message-popup';
+        popup.innerHTML = `
+            <div class="message-bubble sent">hola, ¿cómo estás?</div>
+            <div class="message-bubble">¡Hola! Bien, ¿y tú? 😊</div>
+            <div style="font-size: 0.8em; color: #636e72; text-align: center; margin-top: 10px;">27 de septiembre - El primer mensaje</div>
+        `;
+        messageHighlight.style.position = 'relative';
+        messageHighlight.appendChild(popup);
+
+        messageHighlight.addEventListener('mouseenter', () => popup.classList.add('show'));
+        messageHighlight.addEventListener('mouseleave', () => popup.classList.remove('show'));
+
+        // Efecto de explosión de corazones
+        function createHeartExplosion() {
+            const hearts = ['❤️', '💖', '💕', '💗', '💓', '💝'];
+            const colors = ['#e74c3c', '#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3'];
+            
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'floating-heart';
+                    heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                    heart.style.left = (50 + (Math.random() - 0.5) * 50) + '%';
+                    heart.style.bottom = '20%';
+                    heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                    heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => heart.remove(), 4000);
+                }, i * 100);
+            }
+
+            // Mensaje especial
+            const btn = document.querySelector('.heart-btn');
+            btn.textContent = '¡Amor enviado! 💕';
+            setTimeout(() => {
+                btn.textContent = '❤️ Enviar amor infinito ❤️';
+            }, 3000);
+        }
+
+        // Control de música
+        const musicBtn = document.getElementById('musicBtn');
+        const bgMusic = document.getElementById('bgMusic');
+        let isPlaying = false;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicBtn.classList.remove('playing');
+                musicBtn.textContent = '🎵';
+            } else {
+                bgMusic.play().catch(e => console.log('Error:', e));
+                musicBtn.classList.add('playing');
+                musicBtn.textContent = '🎶';
+            }
+            isPlaying = !isPlaying;
+        }
+
+        musicBtn.addEventListener('click', toggleMusic);
+
+        // Efectos al hacer clic en palabras destacadas
+        document.querySelectorAll('.highlight-text').forEach(text => {
+            text.addEventListener('click', function(e) {
+                const sparkle = document.createElement('div');
+                sparkle.style.position = 'fixed';
+                sparkle.style.left = e.clientX + 'px';
+                sparkle.style.top = e.clientY + 'px';
+                sparkle.style.width = '10px';
+                sparkle.style.height = '10px';
+                sparkle.style.background = '#e74c3c';
+                sparkle.style.borderRadius = '50%';
+                sparkle.style.pointerEvents = 'none';
+                sparkle.style.animation = 'explode 0.5s forwards';
+                document.body.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 500);
+            });
+        });
+
+        // Animación de explosión
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes explode {
+                0% { transform: scale(1); opacity: 1; }
+                100% { transform: scale(3); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
